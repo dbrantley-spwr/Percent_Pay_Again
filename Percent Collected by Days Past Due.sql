@@ -1,4 +1,7 @@
 
+--FIND THE MAXIMUM AMT PAID PER LEASE
+----Only look at ACTIVE contracts. 
+----PIS_DATE > 2016
 WITH CTE as (
 SELECT CCAN, CAST(MAX(Paid) as decimal) Max_Paid
 FROM (
@@ -10,6 +13,7 @@ FROM (
 GROUP BY CCAN
 ),
 
+--BUILD BUCKETS AND JOIN WITH PORTFOLIO DATAMART TO RETRIEVE HISTORICAL DATA
 CTE2 as (
 SELECT Disposal_Flag, Report_Date, a.CCAN, Days_Past_Due, 
        CASE WHEN Days_Past_Due <= 30 THEN 0
